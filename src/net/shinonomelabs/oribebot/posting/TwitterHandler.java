@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.shinonomelabs.oribebot;
+package net.shinonomelabs.oribebot.posting;
 
 import java.io.File;
+import net.shinonomelabs.oribebot.OribeMeta;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -40,13 +41,14 @@ public class TwitterHandler {
     }
     
     public void post(File yasuna, String text) {
-        Twitter t = new TwitterFactory(c).getInstance();
+        System.out.println("Posting Yasuna \"" + text + "\"");
+        /*Twitter t = new TwitterFactory(c).getInstance();
         StatusUpdate su = new StatusUpdate(text);
         su.setMedia(yasuna);
         try {
             t.updateStatus(su);
         } catch(TwitterException te) {
             te.printStackTrace();
-        }
+        }*/
     }
 }
