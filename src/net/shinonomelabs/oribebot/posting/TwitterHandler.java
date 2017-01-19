@@ -42,13 +42,13 @@ public class TwitterHandler {
     
     public void post(File yasuna, String text) {
         System.out.println("Posting Yasuna \"" + text + "\"");
-        /*Twitter t = new TwitterFactory(c).getInstance();
+        Twitter t = new TwitterFactory(c).getInstance();
         StatusUpdate su = new StatusUpdate(text);
         su.setMedia(yasuna);
         try {
             t.updateStatus(su);
         } catch(TwitterException te) {
             te.printStackTrace();
-        }*/
+        }
     }
 }

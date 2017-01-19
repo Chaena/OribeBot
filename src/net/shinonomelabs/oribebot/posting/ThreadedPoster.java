@@ -40,7 +40,7 @@ public class ThreadedPoster extends Thread {
         while(true) {
             System.out.println("next Yasuna in " + wait + " sec");
             try {
-                Thread.sleep(wait);
+                Thread.sleep(wait*1000);
             } catch(InterruptedException ie) {
                 System.err.println("ThreadedPoster " + this.toString() + " interrupted!");
             }
