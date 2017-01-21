@@ -24,7 +24,8 @@
 package net.shinonomelabs.oribebot.storage;
 
 import java.io.File;
-import net.shinonomelabs.oribebot.Main;
+import net.shinonomelabs.oribebot.UtilityMethods;
+import static net.shinonomelabs.oribebot.UtilityMethods.GLOBAL_PROPERTIES;
 
 /**
  *
@@ -37,7 +38,7 @@ public class Yasuna {
     
     public Yasuna(String hash, String d) {
         this.hash = hash;
-        this.file = new File(Main.path + Main.SPR + hash + ".png");
+        this.file = new File((String)GLOBAL_PROPERTIES.getProperty("path",".") + UtilityMethods.SPR + hash + ".png");
         this.description = d;
     }
     

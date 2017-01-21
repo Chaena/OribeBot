@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import net.shinonomelabs.oribebot.Properties;
 
 /**
  *
@@ -37,7 +38,10 @@ import java.util.List;
 public class DBImageHandler implements YasunaImageHandler {
     private final DBHandler dbh;
     
-    public DBImageHandler(String dburl, String dbusr, String dbpass) {
+    public DBImageHandler(Properties p) {
+        String dburl = (String)p.getProperty("dburl", "localhost");
+        String dbusr = (String)p.getProperty("dbuser", "root");
+        String dbpass= (String)p.getProperty("dbpass", "");
         DBHandler dbh = null;
         try {
             dbh = new DBHandler(dburl, dbusr, dbpass);

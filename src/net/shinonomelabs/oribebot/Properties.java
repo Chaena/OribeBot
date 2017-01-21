@@ -23,10 +23,30 @@
  */
 package net.shinonomelabs.oribebot;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  *
- * @author Eliza Bland
+ * @author Elizabeth Bland
  */
-public final class OribeMeta {
-    public static final String BOT_VERSION = "0.5.0";
+public class Properties {
+    private final Map<String,Object> propertyMap = new HashMap<>();
+    
+    public void storeProperty(String key, Object val) {
+        propertyMap.put(key,val);
+    }
+    
+    public Object getProperty(String key, Object dflt) {
+        return (propertyMap.containsKey(key)) ? propertyMap.get(key) : dflt;
+    }
+    
+    public void mergeProperties(Properties p, boolean prioritiseThis) {
+        Iterator<Map.Entry<String,Object>> that = p.propertyMap.entrySet().iterator();
+        while(that.hasNext()) {
+            Map.Entry<String,Object> pair = that.next();
+            if(!prioritiseThis || (prioritiseThis && this.propertyMap.containsKey(pair.getKey()))) propertyMap.put(pair.getKey(), pair.getValue());
+        }
+    }
 }

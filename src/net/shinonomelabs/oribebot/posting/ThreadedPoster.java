@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import net.shinonomelabs.oribebot.Main;
 import net.shinonomelabs.oribebot.OribeMeta;
+import net.shinonomelabs.oribebot.Properties;
 import net.shinonomelabs.oribebot.storage.Yasuna;
 import net.shinonomelabs.oribebot.storage.YasunaImageHandler;
 
@@ -41,10 +42,14 @@ import net.shinonomelabs.oribebot.storage.YasunaImageHandler;
  */
 public class ThreadedPoster extends Thread {
     private final YasunaImageHandler handler;
+    private final Properties properties;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("YYYY/MM/dd, HH.mm.ss");
+    private final TwitterHandler th;
     
-    public ThreadedPoster(YasunaImageHandler h) {
+    public ThreadedPoster(YasunaImageHandler h, Properties p, TwitterHandler th) {
         this.handler = h;
+        this.properties = p;
+        this.th = th;
     }
     
     private String getDate() {
@@ -67,13 +72,12 @@ public class ThreadedPoster extends Thread {
     
     @Override
     public void run() {
-        TwitterHandler th = new TwitterHandler();
-        
         long ctime = System.currentTimeMillis() / 1000L;
         long wait = 21600 - (ctime+3600*3)%21600; // get the next post time, next of 3-9-15-21 daily
         
-        if(Main.announce) th.status("OribeBot " + OribeMeta.BOT_VERSION + " went online at " + getDate() + ". I have " + handler.count() + " Yasunas ready! Next Yasuna will be posted at " + getDate(1000*(ctime+wait)));
-        if(Main.postnow) makePost(th);
+        if((boolean)this.properties.getProperty("announceOnStart", false))
+            th.status("OribeBot " + OribeMeta.BOT_VERSION + " went online at " + getDate() + ". I have " + handler.count() + " Yasunas ready! Next Yasuna will be posted at " + getDate(1000*(ctime+wait)));
+        if((boolean)this.properties.getProperty("postOnStart", false)) makePost(th);
         System.out.println("OribeBot is online.");
         
         while(true) {
