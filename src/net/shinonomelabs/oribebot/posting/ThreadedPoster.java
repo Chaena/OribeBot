@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import net.shinonomelabs.oribebot.Main;
 import net.shinonomelabs.oribebot.OribeMeta;
 import net.shinonomelabs.oribebot.storage.Yasuna;
 import net.shinonomelabs.oribebot.storage.YasunaImageHandler;
@@ -22,24 +23,34 @@ import net.shinonomelabs.oribebot.storage.YasunaImageHandler;
  */
 public class ThreadedPoster extends Thread {
     private final YasunaImageHandler handler;
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("YYYY/MM/dd, HH.mm.ss");
     
     public ThreadedPoster(YasunaImageHandler h) {
         this.handler = h;
     }
     
+    private String getDate() {
+        return getDate(System.currentTimeMillis());
+    }
+    
+    private String getDate(long time) {
+        Date d = new Date();
+        d.setTime(time);
+        return DATE_FORMAT.format(d);
+    }
+    
     @Override
     public void run() {
         TwitterHandler th = new TwitterHandler();
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY/MM/dd, HH.mm.ss");
         
         long ctime = System.currentTimeMillis() / 1000L;
         long wait = 21600 - (ctime+3600*3)%21600; // get the next post time, next of 3-9-15-21 daily
         
-        th.status("OribeBot " + OribeMeta.BOT_VERSION + " went online at " + sdf.format(new Date()) + ". I have " + handler.count() + " Yasunas ready! Next Yasuna will be posted in " + wait + " seconds.");
+        if(Main.announce) th.status("OribeBot " + OribeMeta.BOT_VERSION + " went online at " + getDate() + ". I have " + handler.count() + " Yasunas ready! Next Yasuna will be posted at " + getDate(1000*(ctime+wait)));
         System.out.println("OribeBot is online.");
         
         while(true) {
-            System.out.println("next Yasuna is at " + sdf.format(new Date()));
+            System.out.println("next Yasuna is at " + getDate(1000*(ctime+wait)));
             try {
                 Thread.sleep(wait*1000);
             } catch(InterruptedException ie) {

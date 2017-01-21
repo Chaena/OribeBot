@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 public class Main {
     public static final String SPR = System.getProperty("file.separator");
     public static String path = ".";
+    public static boolean announce = false;
     public static String hash(File f) throws IOException {
         FileInputStream fis = new FileInputStream(f);
         byte[] buf = new byte[fis.available()];
@@ -52,11 +53,13 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
         String path = null;
-        
         for(int i = 0; i < args.length; i++) {
             switch(args[i]) {
                 case "-p": case "--path":
                     path = args[++i];
+                    
+                case "-a": case "--announce-online":
+                    Main.announce = true;
             }
         }
         Main.path = path;
