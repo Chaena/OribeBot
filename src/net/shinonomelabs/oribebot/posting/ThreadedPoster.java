@@ -57,6 +57,14 @@ public class ThreadedPoster extends Thread {
         return DATE_FORMAT.format(d);
     }
     
+    private void makePost(TwitterHandler th) {
+        Yasuna next = handler.getNextYasuna();
+        if(next==null) {
+            System.err.println("Yasuna is null!");
+            th.status("OribeBot ran into a problem and couldn't post a Yasuna right now D:");
+        } else th.post(next.file, next.description);
+    }
+    
     @Override
     public void run() {
         TwitterHandler th = new TwitterHandler();
@@ -65,6 +73,7 @@ public class ThreadedPoster extends Thread {
         long wait = 21600 - (ctime+3600*3)%21600; // get the next post time, next of 3-9-15-21 daily
         
         if(Main.announce) th.status("OribeBot " + OribeMeta.BOT_VERSION + " went online at " + getDate() + ". I have " + handler.count() + " Yasunas ready! Next Yasuna will be posted at " + getDate(1000*(ctime+wait)));
+        if(Main.postnow) makePost(th);
         System.out.println("OribeBot is online.");
         
         while(true) {
@@ -75,11 +84,7 @@ public class ThreadedPoster extends Thread {
                 System.err.println("ThreadedPoster " + this.toString() + " interrupted!");
             }
             
-            Yasuna next = handler.getNextYasuna();
-            if(next==null) {
-                System.err.println("Yasuna is null!");
-                th.status("OribeBot ran into a problem and couldn't post a Yasuna right now D:");
-            } else th.post(next.file, next.description);
+            makePost(th);
             wait += 21600;
         }
     }

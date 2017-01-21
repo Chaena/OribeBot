@@ -28,13 +28,13 @@ package net.shinonomelabs.oribebot;
  * @author Eliza Bland
  */
 public final class OribeMeta {
-    public static final String BOT_VERSION = "0.3.0";
-    public static final String TWITTER_CONSUMER_KEY = "1mqnpmXyv6dstzeXb2CW5Skrz";
-    public static final String TWITTER_CONSUMER_SECRET = "M8P3DlZAjrlnwkCQhtOQfJTPOUCfzV2JYHhqvLQq8zXrh6LCiC";
-    public static final String TWITTER_ACCESS_TOKEN = "820637205358149632-mzoQPRVfHSLXO9hiFAUpvt5wyiBZ5Aj";
-    public static final String TWITTER_ACCESS_TOKEN_SECRET = "idLnd2fh7iXtl9sjvzagnyWw2gH7eAgzEpNwnk48U6bq4";
+    public static final String BOT_VERSION = "0.4.0";
+    public static final String TWITTER_CONSUMER_KEY = null;
+    public static final String TWITTER_CONSUMER_SECRET = null;
+    public static final String TWITTER_ACCESS_TOKEN = null;
+    public static final String TWITTER_ACCESS_TOKEN_SECRET = null;
     
-    public static final String MYSQL_URL = "jdbc:mysql://shinonomelabs.net/oribebot";
-    public static final String MYSQL_USER = "oribebot";
-    public static final String MYSQL_PASS = "sonyachan!!!";
+    public static final String MYSQL_URL = null;
+    public static final String MYSQL_USER = null;
+    public static final String MYSQL_PASS = null;
 }
