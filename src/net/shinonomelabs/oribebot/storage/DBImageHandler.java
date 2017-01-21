@@ -39,7 +39,7 @@ public class DBImageHandler implements YasunaImageHandler {
     private final DBHandler dbh;
     
     public DBImageHandler(Properties p) {
-        String dburl = (String)p.getProperty("dburl", "localhost");
+        String dburl = (String)p.getProperty("dburl", "jdbc:mysql://localhost/oribebot");
         String dbusr = (String)p.getProperty("dbuser", "root");
         String dbpass= (String)p.getProperty("dbpass", "");
         DBHandler dbh = null;

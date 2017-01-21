@@ -78,7 +78,7 @@ public class ThreadedPoster extends Thread {
         if((boolean)this.properties.getProperty("announceOnStart", false))
             th.status("OribeBot " + OribeMeta.BOT_VERSION + " went online at " + getDate() + ". I have " + handler.count() + " Yasunas ready! Next Yasuna will be posted at " + getDate(1000*(ctime+wait)));
         if((boolean)this.properties.getProperty("postOnStart", false)) makePost(th);
-        System.out.println("OribeBot is online.");
+        System.out.println("OribeBot " + OribeMeta.BOT_VERSION + " is online.");
         
         while(true) {
             System.out.println("next Yasuna is at " + getDate(1000*(ctime+wait)));

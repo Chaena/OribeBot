@@ -28,5 +28,5 @@ package net.shinonomelabs.oribebot;
  * @author Eliza Bland
  */
 public final class OribeMeta {
-    public static final String BOT_VERSION = "0.5.0";
+    public static final String BOT_VERSION = "0.5.1";
 }
