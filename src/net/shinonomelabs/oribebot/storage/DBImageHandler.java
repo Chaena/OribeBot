@@ -36,6 +36,7 @@ public class DBImageHandler implements YasunaImageHandler {
         if(dbh==null) return null;
         List<Yasuna> yasunas = dbh.getPostableYasunas();
         Collections.shuffle(yasunas);
+        if(yasunas.isEmpty()) return null;
         Yasuna next = yasunas.get(0);
         dbh.setPosted(next.hash);
         return (verifyExistence(next)) ? next : null;
