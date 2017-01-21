@@ -35,6 +35,7 @@ import net.shinonomelabs.oribebot.OribeMeta;
 import net.shinonomelabs.oribebot.Properties;
 import net.shinonomelabs.oribebot.storage.Yasuna;
 import net.shinonomelabs.oribebot.storage.YasunaImageHandler;
+import twitter4j.Query;
 
 /**
  *
@@ -74,7 +75,9 @@ public class ThreadedPoster extends Thread {
     public void run() {
         long ctime = System.currentTimeMillis() / 1000L;
         long wait = 21600 - (ctime+3600*3)%21600; // get the next post time, next of 3-9-15-21 daily
-        
+        if((boolean)this.properties.getProperty("clearOldAnnouncements",false)) {
+            th.removeWithQuery("\"went online at\" from:OribeBot");
+        }
         if((boolean)this.properties.getProperty("announceOnStart", false))
             th.status("OribeBot " + OribeMeta.BOT_VERSION + " went online at " + getDate() + ". I have " + handler.count() + " Yasunas ready! Next Yasuna will be posted at " + getDate(1000*(ctime+wait)));
         if((boolean)this.properties.getProperty("postOnStart", false)) makePost(th);

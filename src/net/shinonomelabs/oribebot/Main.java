@@ -45,6 +45,7 @@ public class Main {
                 case "-p": case "--path": p.storeProperty("path", args[++i]); UtilityMethods.GLOBAL_PROPERTIES.storeProperty("path", args[i]); break;
                 case "--db-credentials": dbp = UtilityMethods.readCSV(new File(args[++i])); break;
                 case "--tw-credentials": twp = UtilityMethods.readCSV(new File(args[++i])); break;
+                case "--clear-old-announcements": p.storeProperty("clearOldAnnouncements",true); break;
                 case "-a": case "--announce-online": p.storeProperty("announceOnStart", true); break;
                 case "--postnow": p.storeProperty("postOnStart",true); break;
             }

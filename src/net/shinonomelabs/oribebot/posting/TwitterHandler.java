@@ -26,6 +26,9 @@ package net.shinonomelabs.oribebot.posting;
 import java.io.File;
 import net.shinonomelabs.oribebot.OribeMeta;
 import net.shinonomelabs.oribebot.Properties;
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -47,6 +50,24 @@ public class TwitterHandler {
         cb.setOAuthAccessToken((String)p.getProperty("twitter_accesstoken",null));
         cb.setOAuthAccessTokenSecret((String)p.getProperty("twitter_accesstokensecret",null));
         this.tf = new TwitterFactory(cb.build());
+    }
+    
+    public int removeWithQuery(String query) {
+        
+        Twitter t = tf.getInstance();
+        Query q = new Query(query);
+        int count = 0;
+        try {
+            QueryResult qr = t.search(q);
+            for(Status s : qr.getTweets()) {
+                if(s.getUser().getScreenName().equals("OribeBot")) {
+                    t.destroyStatus(s.getId());
+                }
+            }
+        } catch(TwitterException ex) {
+            return -1;
+        }
+        return count;
     }
     
     public void status(String text) {
