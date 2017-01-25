@@ -48,6 +48,7 @@ public class Main {
                 case "--clear-old-announcements": p.storeProperty("clearOldAnnouncements",true); break;
                 case "-a": case "--announce-online": p.storeProperty("announceOnStart", true); break;
                 case "--postnow": p.storeProperty("postOnStart",true); break;
+                case "--window": p.storeProperty("showWindow",true); break;
             }
         }
         TwitterHandler th = new TwitterHandler(twp);

@@ -64,11 +64,21 @@ public class ThreadedPoster extends Thread {
     }
     
     private void makePost(TwitterHandler th) {
-        Yasuna next = handler.getNextYasuna();
+        int tryCount = 0;
+        Yasuna next = null;
+        while(next == null) {
+            if(tryCount>3) break;
+            next = handler.getNextYasuna();
+            tryCount++;
+        }
         if(next==null) {
             System.err.println("Yasuna is null!");
             th.status("OribeBot ran into a problem and couldn't post a Yasuna right now D:");
-        } else th.post(next.file, next.description);
+        } else {
+            System.out.println("Valid Yasuna found after " + tryCount + " attempts.");
+            th.post(next.file, next.description);
+            handler.setPosted(next);
+        }
     }
     
     @Override
