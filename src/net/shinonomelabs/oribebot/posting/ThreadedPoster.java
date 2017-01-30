@@ -78,6 +78,8 @@ public class ThreadedPoster extends Thread {
     @Override
     public void run() {
         Scheduler schedule = new Scheduler(handler);
+        System.out.println("OribeBot " + OribeMeta.BOT_VERSION + " is online.");
+        schedule.printSchedule();
         while(true) {
             List<Yasuna> yasunas = schedule.getDueYasunas(System.currentTimeMillis());
             if(!yasunas.isEmpty()) {

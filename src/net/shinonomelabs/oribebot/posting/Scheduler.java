@@ -53,6 +53,15 @@ public class Scheduler {
         }
     }
     
+    public void printSchedule() {
+        Iterator<Map.Entry<Long,Yasuna>> it = schedule.entrySet().iterator();
+        System.out.println("Time\t\t\tDescription");
+        while(it.hasNext()) {
+            Map.Entry<Long,Yasuna> pair = it.next();
+            System.out.println(pair.getKey() + "\t" + pair.getValue().description);
+        }
+    }
+    
     public List<Yasuna> getDueYasunas(long time) {
         ArrayList<Yasuna> ret = new ArrayList<>();
         Iterator<Map.Entry<Long,Yasuna>> it = schedule.entrySet().iterator();
