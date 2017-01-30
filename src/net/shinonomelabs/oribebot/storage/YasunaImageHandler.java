@@ -36,4 +36,5 @@ public interface YasunaImageHandler {
     public Yasuna getNextYasuna();
     public boolean bulkStoreYasunas(List<Yasuna> ys);
     public void setPosted(Yasuna y);
+    public List<Yasuna> getPostableYasunas();
 }

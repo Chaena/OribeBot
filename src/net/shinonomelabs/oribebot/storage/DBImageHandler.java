@@ -59,6 +59,12 @@ public class DBImageHandler implements YasunaImageHandler {
     }
     
     @Override
+    public List<Yasuna> getPostableYasunas() {
+        if(dbh==null) return null;
+        return dbh.getPostableYasunas();
+    }
+    
+    @Override
     public Yasuna getNextYasuna() {
         if(dbh==null) return null;
         List<Yasuna> yasunas = dbh.getPostableYasunas();

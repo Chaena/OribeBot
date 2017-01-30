@@ -63,46 +63,31 @@ public class ThreadedPoster extends Thread {
         return DATE_FORMAT.format(d);
     }
     
-    private void makePost(TwitterHandler th) {
+    private void makePost(Yasuna y) {
         int tryCount = 0;
-        Yasuna next = null;
-        while(next == null) {
-            if(tryCount>3) break;
-            next = handler.getNextYasuna();
-            tryCount++;
-        }
-        if(next==null) {
+        if(y==null) {
             System.err.println("Yasuna is null!");
             th.status("OribeBot ran into a problem and couldn't post a Yasuna right now D:");
         } else {
             System.out.println("Valid Yasuna found after " + tryCount + " attempts.");
-            th.post(next.file, next.description);
-            handler.setPosted(next);
+            th.post(y.file, y.description);
+            handler.setPosted(y);
         }
     }
     
     @Override
     public void run() {
-        long ctime = System.currentTimeMillis() / 1000L;
-        long wait = 21600 - (ctime+3600*3)%21600; // get the next post time, next of 3-9-15-21 daily
-        if((boolean)this.properties.getProperty("clearOldAnnouncements",false)) {
-            th.removeWithQuery("\"went online at\" from:OribeBot");
-        }
-        if((boolean)this.properties.getProperty("announceOnStart", false))
-            th.status("OribeBot " + OribeMeta.BOT_VERSION + " went online at " + getDate() + ". I have " + handler.count() + " Yasunas ready! Next Yasuna will be posted at " + getDate(1000*(ctime+wait)));
-        if((boolean)this.properties.getProperty("postOnStart", false)) makePost(th);
-        System.out.println("OribeBot " + OribeMeta.BOT_VERSION + " is online.");
-        
+        Scheduler schedule = new Scheduler(handler);
         while(true) {
-            System.out.println("next Yasuna is at " + getDate(1000*(ctime+wait)));
-            try {
-                Thread.sleep(wait*1000);
-            } catch(InterruptedException ie) {
-                System.err.println("ThreadedPoster " + this.toString() + " interrupted!");
+            List<Yasuna> yasunas = schedule.getDueYasunas(System.currentTimeMillis());
+            if(!yasunas.isEmpty()) {
+                makePost(yasunas.get(0));
             }
-            
-            makePost(th);
-            wait += 21600;
+            try {
+                Thread.sleep(5000);
+            } catch(InterruptedException ex) {
+                // TODO handle
+            }
         }
     }
 }
