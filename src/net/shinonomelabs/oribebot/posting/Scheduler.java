@@ -47,7 +47,7 @@ public class Scheduler {
         long wait = (3600*6*1000) - ((current + 3600*3*1000) % (3600*6*1000));
         long next = wait + current;
         
-        for(long i = next; !yasunas.isEmpty(); i += 60*6*1000) {
+        for(long i = next; !yasunas.isEmpty(); i += 60*60*6*1000) {
             schedule.put(i,yasunas.get(0));
             yasunas.remove(0);
         }
@@ -55,7 +55,7 @@ public class Scheduler {
     
     public void printSchedule() {
         Iterator<Map.Entry<Long,Yasuna>> it = schedule.entrySet().iterator();
-        System.out.println("Time\t\t\tDescription");
+        System.out.println("Time\t\tDescription");
         while(it.hasNext()) {
             Map.Entry<Long,Yasuna> pair = it.next();
             System.out.println(pair.getKey() + "\t" + pair.getValue().description);
