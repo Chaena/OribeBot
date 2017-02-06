@@ -87,7 +87,7 @@ public class Scheduler {
         }
         postedYasunas.addAll(ret);
         for(Long l : keys) schedule.remove(l);
-        checkYasunas();
+        if(!ret.isEmpty()) checkYasunas();
         return ret;
     }
     
