@@ -27,6 +27,7 @@ import java.io.File;
 import net.shinonomelabs.oribebot.storage.DBImageHandler;
 import net.shinonomelabs.oribebot.posting.ThreadedPoster;
 import net.shinonomelabs.oribebot.posting.TwitterHandler;
+import net.shinonomelabs.oribebot.storage.YasunaImageHandler;
 
 /**
  *
@@ -52,9 +53,9 @@ public class Main {
             }
         }
         TwitterHandler th = new TwitterHandler(twp);
-        DBImageHandler dih = new DBImageHandler(dbp);
+        YasunaImageHandler yih = new DBImageHandler(dbp);
         
-        ThreadedPoster poster = new ThreadedPoster(dih,p,th);
+        ThreadedPoster poster = new ThreadedPoster(yih,p,th);
         poster.start();
     }
     

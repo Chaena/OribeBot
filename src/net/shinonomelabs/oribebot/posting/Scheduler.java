@@ -37,20 +37,13 @@ import net.shinonomelabs.oribebot.storage.YasunaImageHandler;
  * @author Elizabeth Bland
  */
 public class Scheduler {
+    private final YasunaImageHandler yh;
     private final Map<Long,Yasuna> schedule = new TreeMap<>();
     private final List<Yasuna> postedYasunas = new ArrayList<>();
     
     public Scheduler(YasunaImageHandler yh) {
-        List<Yasuna> yasunas = yh.getPostableYasunas();
-        Collections.shuffle(yasunas);
-        long current = System.currentTimeMillis();
-        long wait = (3600*6*1000) - ((current + 3600*3*1000) % (3600*6*1000));
-        long next = wait + current;
-        
-        for(long i = next; !yasunas.isEmpty(); i += 60*60*6*1000) {
-            schedule.put(i,yasunas.get(0));
-            yasunas.remove(0);
-        }
+        this.yh = yh;
+        refreshYasunas();
     }
     
     public void printSchedule() {
@@ -62,18 +55,40 @@ public class Scheduler {
         }
     }
     
+    public boolean refreshYasunas() {
+        System.out.println("Loading some Yasunas...");
+        List<Yasuna> yasunas = yh.getPostableYasunas();
+        Collections.shuffle(yasunas);
+        long current = System.currentTimeMillis();
+        long wait = (3600*6*1000) - ((current + 3600*3*1000) % (3600*6*1000));
+        long next = wait + current;
+        
+        for(long i = next; !yasunas.isEmpty(); i += 60*60*6*1000) {
+            schedule.put(i,yasunas.get(0));
+            yasunas.remove(0);
+        }
+        return !schedule.isEmpty();
+    }
+    
+    public void checkYasunas() {
+        System.out.println("Checking Yasunas...");
+        if(schedule.isEmpty()) refreshYasunas();
+    }
     public List<Yasuna> getDueYasunas(long time) {
         ArrayList<Yasuna> ret = new ArrayList<>();
+        ArrayList<Long> keys = new ArrayList<>();
         Iterator<Map.Entry<Long,Yasuna>> it = schedule.entrySet().iterator();
         while(it.hasNext()) {
             Map.Entry<Long,Yasuna> pair = it.next();
             if(pair.getKey() > time) continue;
             Yasuna yasuna = pair.getValue();
-            if(!postedYasunas.contains(yasuna)) ret.add(yasuna);
+            if(!postedYasunas.contains(yasuna)) { ret.add(yasuna); keys.add(pair.getKey()); }
             
         }
         postedYasunas.addAll(ret);
-       return ret;
+        for(Long l : keys) schedule.remove(l);
+        checkYasunas();
+        return ret;
     }
     
 }
